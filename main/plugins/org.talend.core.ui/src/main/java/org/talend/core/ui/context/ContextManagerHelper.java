@@ -40,6 +40,7 @@ import org.talend.core.model.process.IContextParameter;
 import org.talend.core.model.properties.ContextItem;
 import org.talend.core.runtime.CoreRuntimePlugin;
 import org.talend.core.ui.context.cmd.OrderContextParameterCommand;
+import org.talend.core.ui.context.model.table.ContextTableTabParentModel;
 import org.talend.core.ui.context.model.template.ContextConstant;
 import org.talend.core.ui.context.model.template.ContextVariableTabChildModel;
 import org.talend.core.ui.context.model.template.ContextVariableTabParentModel;
@@ -179,6 +180,7 @@ public final class ContextManagerHelper {
      * 
      * @deprecated by 13184
      */
+    @Deprecated
     public ContextItem getContextItemByName(String name) {
         if (!isValid(name)) {
             return null;
@@ -437,6 +439,10 @@ public final class ContextManagerHelper {
         if (element instanceof ContextVariableTabParentModel) {
             movedParam = ((ContextVariableTabParentModel) element).getContextParameter();
         }
+
+        if (element instanceof ContextTableTabParentModel) {
+            movedParam = ((ContextTableTabParentModel) element).getContextParameter();
+        }
         if (movedParam == null) {
             return false;
         }
@@ -451,6 +457,8 @@ public final class ContextManagerHelper {
         }
         //
         modelManager.refreshTemplateTab();
+
+        modelManager.refreshTableTab();
 
         revertTreeSelection(viewer, movedParam);
 

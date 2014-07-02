@@ -18,4 +18,6 @@ package org.talend.core.ui.context.model.table;
 public class ContextTableConstants {
 
     public static final String COLUMN_NAME_PROPERTY = "NAME"; //$NON-NLS-1$
+
+    public static final String COLUMN_TYPE_PROPERTY = "TYPE"; //$NON-NLS-1$
 }
