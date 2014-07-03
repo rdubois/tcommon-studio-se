@@ -123,19 +123,19 @@ public abstract class ContextComposite extends Composite implements IContextMode
 
     @Override
     public void refreshTemplateTab() {
-        // if (getContextManager() == null) {
-        // this.setEnabled(false);
-        // template.clear();
-        // template.setEnabled(isReadOnly());
-        // } else {
-        // this.setEnabled(true);
-        // setTabEnable(!isReadOnly());
-        // toolgeRefreshContextRelitiveComposite(template);
-        // }
-        //
-        // if (getContextManager() != null) {
-        // getContextManager().fireContextsChangedEvent();
-        // }
+        if (getContextManager() == null) {
+            this.setEnabled(false);
+            tableValues.clear();
+            tableValues.setEnabled(isReadOnly());
+        } else {
+            this.setEnabled(true);
+            setTabEnable(!isReadOnly());
+            toolgeRefreshContextRelitiveComposite(tableValues);
+        }
+
+        if (getContextManager() != null) {
+            getContextManager().fireContextsChangedEvent();
+        }
     }
 
     @Override
@@ -159,18 +159,18 @@ public abstract class ContextComposite extends Composite implements IContextMode
 
     @Override
     public void refreshTreeTab() {
-        // if (getContextManager() == null) {
-        // this.setEnabled(false);
-        // treeValues.clear();
-        // } else {
-        // this.setEnabled(true);
-        // setTabEnable(!isReadOnly());
-        // toolgeRefreshContextRelitiveComposite(treeValues);
-        // }
-        //
-        // if (getContextManager() != null) {
-        // getContextManager().fireContextsChangedEvent();
-        // }
+        if (getContextManager() == null) {
+            this.setEnabled(false);
+            tableValues.clear();
+        } else {
+            this.setEnabled(true);
+            setTabEnable(!isReadOnly());
+            toolgeRefreshContextRelitiveComposite(tableValues);
+        }
+
+        if (getContextManager() != null) {
+            getContextManager().fireContextsChangedEvent();
+        }
     }
 
     /**
