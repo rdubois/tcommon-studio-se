@@ -110,7 +110,6 @@ public class GroupBySourceTableProvider extends ContextProviderProxy {
                 }
             } else {
                 List<ContextTabChildModel> children = parent.getChildren();
-                StringBuffer sb = new StringBuffer();
                 if (children != null && children.size() > 0) {
                     for (ContextTabChildModel child : children) {
                         IContextParameter contextPara = child.getContextParameter();

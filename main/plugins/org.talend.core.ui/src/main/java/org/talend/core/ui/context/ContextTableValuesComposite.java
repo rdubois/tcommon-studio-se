@@ -954,7 +954,7 @@ public class ContextTableValuesComposite extends AbstractContextTabEditComposite
             if (i == 0) {
                 cellEditors[i] = new TextCellEditor(tree);
             } else if (i == 1) {
-                String[] values = ContextParameterJavaTypeManager.getPerlTypesLabels();
+                String[] values = ContextParameterJavaTypeManager.getJavaTypesLabels();
                 cellEditors[i] = new ComboBoxCellEditor(tree, values, SWT.NULL);
             } else {
                 cellEditors[i] = new TextCellEditor(tree);

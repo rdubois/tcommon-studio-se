@@ -110,29 +110,21 @@ public abstract class ContextComposite extends Composite implements IContextMode
             }
         }
         if (flag) {
-            template.setEnabled(false);
             tableValues.setEnabled(false);
-            treeValues.setEnabled(false);
         } else {
-            // template.setEnabled(enable);
             tableValues.setEnabled(enable);
-            // treeValues.setEnabled(enable);
         }
     }
 
     @Override
     public void refresh() {
-        refreshTemplateTab();
         refreshTableTab();
-        refreshTreeTab();
     }
 
     @Override
     public void refreshTemplateTab() {
         if (getContextManager() == null) {
             this.setEnabled(false);
-            // template.clear();
-            // template.setEnabled(isReadOnly());
         } else {
             this.setEnabled(true);
             setTabEnable(!isReadOnly());
@@ -207,8 +199,6 @@ public abstract class ContextComposite extends Composite implements IContextMode
      */
     protected void initializeUI() {
 
-        // Composite tableValuesComposite = new Composite(this, SWT.NULL);
-
         Group tableValuesGroup = new Group(this, SWT.BORDER);
 
         tableValuesGroup.setLayout(new GridLayout());
@@ -217,51 +207,11 @@ public abstract class ContextComposite extends Composite implements IContextMode
 
         tableValuesGroup.setText(Messages.getString("ContextComposite.tableValue"));
 
-        // CTabItem tableValuesItem = new CTabItem(tab, SWT.NONE);
-        //         tableValuesItem.setText(Messages.getString("ContextComposite.tableValue")); //$NON-NLS-1$
-
         tableValues = new ContextTableValuesComposite(tableValuesGroup, this);
 
         tableValues.setLayout(new GridLayout());
         GridData gridData = new GridData(GridData.FILL_BOTH);
-        // gridData.heightHint = 120;
-        // gridData.widthHint = 100;
         tableValues.setLayoutData(gridData);
-        // tableValues.refresh();
-
-        // tab = new CTabFolder(this, SWT.FLAT | SWT.BORDER);
-        // tab.addSelectionListener(new SelectionAdapter() {
-        //
-        // @Override
-        // public void widgetSelected(SelectionEvent e) {
-        // CTabItem cTabItem = (CTabItem) e.item;
-        // Control control = cTabItem.getControl();
-        // if (control == treeValues) {
-        // refreshTreeTab();
-        // } else if (control == tableValues) {
-        // refreshTableTab();
-        // } else if (control == template) {
-        // refreshTemplateTab();
-        // } else {
-        // refresh();
-        // }
-        // }
-        //
-        // });
-        // tab.setLayoutData(new GridData(GridData.FILL_BOTH));
-
-        // CTabItem templateItem = new CTabItem(tab, SWT.NONE);
-        //        templateItem.setText(Messages.getString("ContextComposite.variable")); //$NON-NLS-1$
-        // creatTemplate(tab, templateItem);
-        //
-        // CTabItem treeValuesItem = new CTabItem(tab, SWT.NONE);
-        //        treeValuesItem.setText(Messages.getString("ContextComposite.treeValue")); //$NON-NLS-1$
-        // creatTreeValues(tab, treeValuesItem);
-
-        // CTabItem tableValuesItem = new CTabItem(tab, SWT.NONE);
-        //        tableValuesItem.setText(Messages.getString("ContextComposite.tableValue")); //$NON-NLS-1$
-        // creatTableValues(tab, tableValuesItem);
-        // tab.setSelection(tableValuesItem);
     }
 
     public CTabFolder getTableFolder() {

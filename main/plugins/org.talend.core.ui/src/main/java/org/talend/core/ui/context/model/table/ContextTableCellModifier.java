@@ -102,7 +102,7 @@ public class ContextTableCellModifier extends AbstractContextCellModifier {
                 }
             }
         }
-        return ""; //$NON-NLS-1$
+        return null;
     }
 
     private int getValueIndex(String value) {
@@ -206,7 +206,6 @@ public class ContextTableCellModifier extends AbstractContextCellModifier {
                 IContextParameter contextPara = parent.getContextParameter();
                 String originalName = contextPara.getName();
                 String s = ContextManagerHelper.convertFormat(contextPara.getType());
-                IContextParameter currentPara = null;
                 for (int i = 0; i < ContextParameterJavaTypeManager.getJavaTypesLabels().length; i++) {
                     if (s.equals(ContextParameterJavaTypeManager.getJavaTypesLabels()[i])) {
                         index = i;
@@ -216,26 +215,11 @@ public class ContextTableCellModifier extends AbstractContextCellModifier {
                     return;
                 }
                 String newType = getRealType(ContextParameterJavaTypeManager.getJavaTypesLabels()[(Integer) value]);
-                String name = contextPara.getName();
-
-                List<Object> list = new ArrayList<Object>();
-                list.add(object);
-
-                for (IContext context : getContextManager().getListContext()) {
-                    for (IContextParameter contextParameter : context.getContextParameterList()) {
-                        if (name.equals(contextParameter.getName())) {
-                            contextParameter.setType(newType);
-                            currentPara = contextParameter;
-                        }
-                    }
-                }
-
+                contextPara.setType(newType);
                 List<Object> updateObjs = new ArrayList<Object>();
                 updateObjs.add(object);
-                if (currentPara != null) {
-                    lookupSameNameNode(currentPara.getSource(), originalName, item, updateObjs);
-                    updateRelatedNode(updateObjs.toArray(), currentPara);
-                }
+                lookupSameNameNode(contextPara.getSource(), originalName, item, updateObjs);
+                updateRelatedNode(updateObjs.toArray(), contextPara);
             } else {
                 // add all nodes that need to update.
                 List<Object> list = new ArrayList<Object>();
@@ -276,10 +260,7 @@ public class ContextTableCellModifier extends AbstractContextCellModifier {
                 lookupSameNameNode(para.getSource(), originalName, item, updateObjs);
                 updateRelatedNode(updateObjs.toArray(), para);
             }
-
         }
-
-        // setAndRefreshFlags(object, para);
     }
 
     /**
