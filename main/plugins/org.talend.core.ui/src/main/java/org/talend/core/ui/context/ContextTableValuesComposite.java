@@ -186,8 +186,6 @@ public class ContextTableValuesComposite extends AbstractContextTabEditComposite
         provider = new ContextViewerProvider();
         changeContextProvider();
 
-        final TreeEditor treeEditor = new TreeEditor(viewer.getTree());
-
         viewer.addPostSelectionChangedListener(new ISelectionChangedListener() {
 
             @Override
@@ -196,35 +194,6 @@ public class ContextTableValuesComposite extends AbstractContextTabEditComposite
             }
         });
 
-        // viewer.getTree().addMouseListener(new MouseAdapter() {
-        //
-        // @Override
-        // public void mouseDown(MouseEvent e) {
-        // if (modelManager.isReadOnly()) {
-        // return;
-        // }
-        // Point pt = new Point(e.x, e.y);
-        // if (e.x > 0 && e.x < (viewer.getTree().getColumnCount()) * ContextTableValuesComposite.CONTEXT_COLUMN_WIDTH)
-        // {
-        // createEditorListener(treeEditor, e.x / CONTEXT_COLUMN_WIDTH);
-        // }
-        // TreeItem item = viewer.getTree().getItem(pt);
-        // // deactivate the current cell editor
-        // if (cellEditor != null && !cellEditor.getControl().isDisposed()) {
-        // deactivateCellEditor(treeEditor, e.x / CONTEXT_COLUMN_WIDTH);
-        // }
-        // if (item != null && !item.isDisposed()) {
-        // Rectangle rect = item.getBounds(viewer.getTree().getColumnCount() - 1);
-        //
-        // if (e.x > 0 && e.x < (viewer.getTree().getColumnCount()) * ContextTableValuesComposite.CONTEXT_COLUMN_WIDTH)
-        // {
-        // handleSelect(item, viewer.getTree(), treeEditor, viewer.getTree().getColumnCount() - 1, e.x
-        // / CONTEXT_COLUMN_WIDTH);
-        // }
-        // }
-        //
-        // }
-        // });
         valueChecker = new ContextValueErrorChecker(viewer);
         if (LanguageManager.getCurrentLanguage() == ECodeLanguage.PERL) {
             createTreeTooltip(tree);

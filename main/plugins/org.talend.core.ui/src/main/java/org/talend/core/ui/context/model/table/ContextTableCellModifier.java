@@ -200,6 +200,7 @@ public class ContextTableCellModifier extends AbstractContextCellModifier {
         final Object object = item.getData();
 
         if (object instanceof ContextTableTabParentModel) {
+            List<IContext> contextList = getParentMode().getContexts();
             if (property.equals(ContextTableConstants.COLUMN_TYPE_PROPERTY)) {
                 int index = -1;
                 ContextTableTabParentModel parent = (ContextTableTabParentModel) object;
@@ -216,6 +217,14 @@ public class ContextTableCellModifier extends AbstractContextCellModifier {
                 }
                 String newType = getRealType(ContextParameterJavaTypeManager.getJavaTypesLabels()[(Integer) value]);
                 contextPara.setType(newType);
+                String name = contextPara.getName();
+                for (IContext context : contextList) { // getContextManager().getListContext()
+                    for (IContextParameter contextParameter : context.getContextParameterList()) {
+                        if (name.equals(contextParameter.getName())) {
+                            contextParameter.setType(newType);
+                        }
+                    }
+                }
                 List<Object> updateObjs = new ArrayList<Object>();
                 updateObjs.add(object);
                 lookupSameNameNode(contextPara.getSource(), originalName, item, updateObjs);
@@ -226,7 +235,6 @@ public class ContextTableCellModifier extends AbstractContextCellModifier {
                 list.add(object);
 
                 IContextParameter para = null;
-                List<IContext> contextList = getParentMode().getContexts();
                 for (int i = 0; i < (contextList.size() + 2); i++) {
                     if (property.equals(getParentMode().getColumnProperties()[i])) {
                         para = getRealParameter(getParentMode().getColumnProperties()[i], object);
