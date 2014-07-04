@@ -21,7 +21,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -778,10 +777,9 @@ public class ImportBasicHandler extends AbstractImportExecutableHandler {
                 }
 
             } catch (Exception e) {
-                selectedImportItem.addError(e.getMessage());
+                selectedImportItem.addError(selectedImportItem.getItemName() + ";" + e.getMessage() + ";" + path);//$NON-NLS-1$
                 logError(e);
             }
-
         }
     }
 
