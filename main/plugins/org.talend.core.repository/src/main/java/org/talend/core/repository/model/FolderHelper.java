@@ -286,8 +286,11 @@ public abstract class FolderHelper {
                     continue;
                 }
                 item.setParent(parentItem);
-                if (item instanceof FolderItem && item.getProperty().getLabel().equals(name)) {
-                    return (FolderItem) item;
+                if (item instanceof FolderItem) {
+                    // TDI-29841, if in win, case insensitive issue for folder, must ignore case
+                    if (item.getProperty().getLabel().equalsIgnoreCase(name)) {
+                        return (FolderItem) item;
+                    }
                 }
             }
         } catch (Exception e) {

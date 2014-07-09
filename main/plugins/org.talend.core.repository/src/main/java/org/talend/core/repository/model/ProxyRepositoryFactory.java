@@ -1079,10 +1079,14 @@ public final class ProxyRepositoryFactory implements IProxyRepositoryFactory {
             // for bug 9352: .svnlog folder should not be visible in wizards
             EObject obj = source.getParent();
             if (obj != null && obj instanceof FolderItemImpl) {
-                target.add(path + source.getProperty().getLabel());
+                String onePath = path + source.getProperty().getLabel();
+                // TDI-29841, if in win, case sensitive issue for folder.
+                onePath = onePath.toUpperCase();
+                target.add(onePath);
+
                 for (Object current : source.getChildren()) {
                     if (current instanceof FolderItem) {
-                        addChildren(target, (FolderItem) current, type, path + source.getProperty().getLabel() + "/"); //$NON-NLS-1$
+                        addChildren(target, (FolderItem) current, type, onePath + "/"); //$NON-NLS-1$
                     }
                 }
             }
@@ -1174,6 +1178,7 @@ public final class ProxyRepositoryFactory implements IProxyRepositoryFactory {
     @Override
     public void createParentFoldersRecursively(Project project, ERepositoryObjectType itemType, IPath path, boolean isImportItem)
             throws PersistenceException {
+
         List<String> folders = getFolders(project, itemType);
 
         for (int i = 0; i < path.segmentCount(); i++) {
@@ -1181,6 +1186,8 @@ public final class ProxyRepositoryFactory implements IProxyRepositoryFactory {
             String folderLabel = path.segment(i);
 
             String folderName = parentPath.append(folderLabel).toString();
+            // TDI-29841, if in win, case insensitive issue for folder.
+            folderName = folderName.toUpperCase();
             if (!folders.contains(folderName)) {
                 createFolder(project, itemType, parentPath, folderLabel);
             }
