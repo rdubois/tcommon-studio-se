@@ -64,6 +64,7 @@ import org.talend.core.model.properties.FileItem;
 import org.talend.core.model.properties.FolderItem;
 import org.talend.core.model.properties.FolderType;
 import org.talend.core.model.properties.Item;
+import org.talend.core.model.properties.ItemState;
 import org.talend.core.model.properties.JobletProcessItem;
 import org.talend.core.model.properties.LinkDocumentationItem;
 import org.talend.core.model.properties.LinkType;
@@ -812,6 +813,11 @@ public class ImportBasicHandler extends AbstractImportExecutableHandler {
             // TDI-29841 , if win, need try to find the existed folder item which is case insensitive.
             FolderItem folderItem = getFolderItem(selectedImportItem, curItemType, path);
             if (folderItem != null) {
+                // if the item is not deleted, will restore folders.
+                if (!selectedImportItem.getItem().getState().isDeleted()) {
+                    restoreFolderItem(folderItem); // restore the parent folders from recycle bin.
+                }
+
                 // reset the path, especially for win os with case insensitive.
                 path = new Path(folderItem.getState().getPath()).append(folderItem.getProperty().getLabel());
             }
@@ -849,10 +855,25 @@ public class ImportBasicHandler extends AbstractImportExecutableHandler {
                     curPath = curPath.removeLastSegments(1);
                     folderItem = repFactory.getFolderItem(ProjectManager.getInstance().getCurrentProject(), curItemType, curPath);
                 }
-
             }
         }
         return folderItem;
+    }
+
+    /**
+     * 
+     * most like the RestoreAction for folder item.
+     */
+    private void restoreFolderItem(FolderItem folderItem) {
+        ItemState state = folderItem.getState();
+        if (state.isDeleted()) {
+            state.setDeleted(false);
+        }
+        EObject parent = folderItem.getParent();
+        if (parent instanceof FolderItem) {
+            FolderItem parentFolder = (FolderItem) parent;
+            restoreFolderItem(parentFolder);
+        }
     }
 
     protected void beforeCreatingItem(ImportItem selectedImportItem) {
