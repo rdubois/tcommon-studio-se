@@ -27,6 +27,18 @@ import org.talend.designer.core.model.utils.emf.talendfile.ElementParameterType;
  */
 public class ProcessTypeParameterRelationshipHandler extends AbstractJobParameterRelationshipHandler {
 
+    public static final String IMPLICIT_TCONTEXTLOAD = "IMPLICIT_TCONTEXTLOAD"; //$NON-NLS-1$
+
+    public static final String PROPERTY_TYPE_IMPLICIT_CONTEXT_PROPERTY_TYPE = "PROPERTY_TYPE_IMPLICIT_CONTEXT:PROPERTY_TYPE"; //$NON-NLS-1$
+
+    public static final String PROPERTY_TYPE_IMPLICIT_CONTEXT_REPOSITORY_PROPERTY_TYPE = "PROPERTY_TYPE_IMPLICIT_CONTEXT:REPOSITORY_PROPERTY_TYPE"; //$NON-NLS-1$
+
+    public static final String ON_DATABASE_FLAG = "ON_DATABASE_FLAG";
+
+    public static final String PROPERTY_TYPE_PROPERTY_TYPE = "PROPERTY_TYPE:PROPERTY_TYPE";
+
+    public static final String PROPERTY_TYPE_REPOSITORY_PROPERTY_TYPE = "PROPERTY_TYPE:REPOSITORY_PROPERTY_TYPE";
+
     /*
      * (non-Javadoc)
      * 
@@ -63,6 +75,48 @@ public class ProcessTypeParameterRelationshipHandler extends AbstractJobParamete
                     addedRelation.setType(RelationshipItemBuilder.JOB_RELATION);
                     addedRelation.setVersion(jobVersion);
                     relationSet.add(addedRelation);
+                }
+            }
+        }
+
+        // implicit_tcontextload
+        ElementParameterType implicit_tcontextload_Type = parametersMap.get(IMPLICIT_TCONTEXTLOAD);
+        if (implicit_tcontextload_Type != null && implicit_tcontextload_Type.getValue().equals("true")) {
+            ElementParameterType property_type_implicit_context_property_type = parametersMap
+                    .get(PROPERTY_TYPE_IMPLICIT_CONTEXT_PROPERTY_TYPE);
+            if (property_type_implicit_context_property_type != null
+                    && "REPOSITORY".equals(property_type_implicit_context_property_type.getValue())) {
+                ElementParameterType property_type_implicit_context_repository_property_type = parametersMap
+                        .get(PROPERTY_TYPE_IMPLICIT_CONTEXT_REPOSITORY_PROPERTY_TYPE);
+                if (property_type_implicit_context_repository_property_type != null) {
+                    String Id = property_type_implicit_context_repository_property_type.getValue();
+                    if (StringUtils.isNotEmpty(Id)) {
+                        Relation addedRelation = new Relation();
+                        addedRelation.setId(Id);
+                        addedRelation.setType(RelationshipItemBuilder.PROPERTY_RELATION);
+                        addedRelation.setVersion(RelationshipItemBuilder.LATEST_VERSION);
+                        relationSet.add(addedRelation);
+                    }
+                }
+            }
+        }
+
+        // stats & logs
+        ElementParameterType on_database_flag = parametersMap.get(ON_DATABASE_FLAG);
+        if (on_database_flag != null && on_database_flag.getValue().equals("true")) {
+            ElementParameterType property_type_property_type = parametersMap.get(PROPERTY_TYPE_PROPERTY_TYPE);
+            if (property_type_property_type != null && "REPOSITORY".equals(property_type_property_type.getValue())) {
+                ElementParameterType property_type_repository_property_type = parametersMap
+                        .get(PROPERTY_TYPE_REPOSITORY_PROPERTY_TYPE);
+                if (property_type_repository_property_type != null) {
+                    String Id = property_type_repository_property_type.getValue();
+                    if (StringUtils.isNotEmpty(Id)) {
+                        Relation addedRelation = new Relation();
+                        addedRelation.setId(Id);
+                        addedRelation.setType(RelationshipItemBuilder.PROPERTY_RELATION);
+                        addedRelation.setVersion(RelationshipItemBuilder.LATEST_VERSION);
+                        relationSet.add(addedRelation);
+                    }
                 }
             }
         }
