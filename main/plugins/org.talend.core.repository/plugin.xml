@@ -672,6 +672,16 @@
             id="org.talend.core.repository.parameterHandler.processType"
             name="Process Type">
       </parameterHandler>
+      <parameterHandler
+            class="org.talend.core.repository.handlers.ImplicitContextTypeParameterRelationshipHandler"
+            id="org.talend.core.repository.parameterHandler.implicitContextType"
+            name="Implicit Context Type">
+      </parameterHandler>
+      <parameterHandler
+            class="org.talend.core.repository.handlers.StatLogTypeParameterRelationshipHandler"
+            id="org.talend.core.repository.parameterHandler.statLogType"
+            name="Stat Log Type">
+      </parameterHandler>
    </extension>
 
 

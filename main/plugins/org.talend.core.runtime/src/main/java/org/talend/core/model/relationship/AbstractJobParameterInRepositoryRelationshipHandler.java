@@ -26,6 +26,8 @@ public abstract class AbstractJobParameterInRepositoryRelationshipHandler extend
 
     public static final String IN_REPOSITORY = "REPOSITORY"; //$NON-NLS-1$
 
+    public static final String TRUE = "true";
+
     /*
      * (non-Javadoc)
      * 
@@ -34,6 +36,21 @@ public abstract class AbstractJobParameterInRepositoryRelationshipHandler extend
      */
     @Override
     protected Set<Relation> collect(Map<String, ElementParameterType> parametersMap, Map<?, ?> options) {
+        Set<Relation> relationSet = new HashSet<Relation>();
+
+        if (getUsedCondition() == null) {
+            relationSet = doCollect(parametersMap, options);
+        } else {
+            ElementParameterType repositoryTypeParam = getParameterTypeByNames(parametersMap, getUsedCondition());
+            if (repositoryTypeParam != null && TRUE.equals(repositoryTypeParam.getValue())) {
+                relationSet = doCollect(parametersMap, options);
+            }
+        }
+
+        return relationSet;
+    }
+
+    private Set<Relation> doCollect(Map<String, ElementParameterType> parametersMap, Map<?, ?> options) {
         Set<Relation> relationSet = new HashSet<Relation>();
 
         ElementParameterType repositoryTypeParam = getParameterTypeByNames(parametersMap, getRepositoryTypeName(),
@@ -98,6 +115,10 @@ public abstract class AbstractJobParameterInRepositoryRelationshipHandler extend
      */
     protected String[] getRepositoryTypeValueNameN() {
         return new String[0];// default, no Name N
+    }
+
+    protected String getUsedCondition() {
+        return null;
     }
 
     /**
