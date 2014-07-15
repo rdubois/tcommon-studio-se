@@ -342,6 +342,7 @@ public enum EDatabaseConnTemplate {
             case SYBASEASE:
             case HSQLDB_IN_PROGRESS: // for feature 11674
             case TERADATA: // for feature 0013719
+            case VERTICA:
                 return true;
             default:
             }
