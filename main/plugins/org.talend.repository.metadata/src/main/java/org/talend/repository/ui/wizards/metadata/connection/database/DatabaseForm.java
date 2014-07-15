@@ -274,6 +274,8 @@ public class DatabaseForm extends AbstractForm {
 
     private LabelledText generalJdbcDriverjarText = null;
 
+    private LabelledText generaljdbcAddtionParams = null;
+
     private LabelledText jDBCschemaText;
 
     private Button browseJarFilesButton = null;
@@ -589,6 +591,7 @@ public class DatabaseForm extends AbstractForm {
 
         generalJdbcDriverjarText.setText(getConnection().getDriverJarPath());
         generalMappingFileText.setText(getConnection().getDbmsId());
+        generaljdbcAddtionParams.setText(getConnection().getAdditionalParams());
 
         String jdbcUrlString = ""; //$NON-NLS-1$
         if (isContextMode()) {
@@ -1760,6 +1763,8 @@ public class DatabaseForm extends AbstractForm {
         generalMappingSelectButton.setText("..."); //$NON-NLS-1$
         generalMappingSelectButton.setToolTipText(Messages.getString("DatabaseForm.selectRule")); //$NON-NLS-1$
 
+        generaljdbcAddtionParams = new LabelledText(generalDbCompositeParent, Messages.getString("DatabaseForm.AddParams"), 2);
+
     }
 
     /**
@@ -2071,9 +2076,10 @@ public class DatabaseForm extends AbstractForm {
                     isGeneralJDBC() ? generalJdbcUserText.getText() : usernameText.getText(),
                     isGeneralJDBC() ? generalJdbcPasswordText.getText() : passwordText.getText(), sidOrDatabaseText.getText(),
                     portText.getText(), fileField.getText(), datasourceText.getText(), isGeneralJDBC() ? jDBCschemaText.getText()
-                            : schemaText.getText(), additionParamText.getText(), generalJdbcClassNameText.getText(),
-                    generalJdbcDriverjarText.getText(), enableDbVersion() ? versionStr : null, metadataconnection
-                            .getOtherParameters());
+                            : schemaText.getText(),
+                    isGeneralJDBC() ? generaljdbcAddtionParams.getText() : additionParamText.getText(), generalJdbcClassNameText
+                            .getText(), generalJdbcDriverjarText.getText(), enableDbVersion() ? versionStr : null,
+                    metadataconnection.getOtherParameters());
 
             managerConnection.setDbRootPath(directoryField.getText());
 
@@ -3194,6 +3200,19 @@ public class DatabaseForm extends AbstractForm {
             }
         });
 
+        generaljdbcAddtionParams.addModifyListener(new ModifyListener() {
+
+            @Override
+            public void modifyText(final ModifyEvent e) {
+                if (!isContextMode()) {
+                    if (validText(generaljdbcAddtionParams.getText())) {
+                        getConnection().setAdditionalParams(generaljdbcAddtionParams.getText());
+                    }
+                    checkFieldsValue();
+                }
+            }
+        });
+
         mappingFileText.addModifyListener(new ModifyListener() {
 
             @Override
@@ -3628,6 +3647,7 @@ public class DatabaseForm extends AbstractForm {
             addContextParams(EDBParamName.DriverJar, visible);
             addContextParams(EDBParamName.MappingFile, visible);
             addContextParams(EDBParamName.ClassName, visible);
+            addContextParams(EDBParamName.AdditionalParams, visible);
         }
 
         addContextParams(EDBParamName.Login, visible);
@@ -3972,7 +3992,7 @@ public class DatabaseForm extends AbstractForm {
                 additionParamText.show();
                 additionParamText.setEditable(true);
                 addContextParams(EDBParamName.AdditionalParams, true);
-            } else {
+            } else if (!EDatabaseConnTemplate.GENERAL_JDBC.getDBTypeName().equals(dbTypeCombo.getText())) {
                 additionParamText.hide();
                 addContextParams(EDBParamName.AdditionalParams, false);
             }
@@ -4238,6 +4258,8 @@ public class DatabaseForm extends AbstractForm {
         generalJdbcClassNameText.setEnabled(!isContextMode());
 
         generalJdbcDriverjarText.setEditable(!isContextMode());
+
+        generaljdbcAddtionParams.setEditable(!isContextMode());
 
         jDBCschemaText.setEditable(!isContextMode());
 
