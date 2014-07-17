@@ -24,7 +24,8 @@ import org.talend.updates.runtime.model.ExtraFeature;
  */
 public abstract class AbstractExtraUpdatesFactory {
 
-    public abstract void retrieveUninstalledExtraFeatures(IProgressMonitor monitor, Set<ExtraFeature> uninstalledExtraFeatures);
+    public abstract void retrieveUninstalledExtraFeatures(IProgressMonitor monitor, Set<ExtraFeature> uninstalledExtraFeatures)
+            throws Exception;
 
     // after update studio, will do this.
     public void afterUpdate() {

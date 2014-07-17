@@ -45,7 +45,8 @@ public class PluginOptionalMissingJarsExtraUpdatesFactory extends AbstractExtraU
      * .runtime.IProgressMonitor, java.util.Set)
      */
     @Override
-    public void retrieveUninstalledExtraFeatures(IProgressMonitor monitor, Set<ExtraFeature> uninstalledExtraFeatures) {
+    public void retrieveUninstalledExtraFeatures(IProgressMonitor monitor, Set<ExtraFeature> uninstalledExtraFeatures)
+            throws Exception {
 
         SubMonitor mainSubMonitor = SubMonitor.convert(monitor, 2);
         List<ModuleNeeded> unistalledModulesNeeded = ModulesNeededProvider

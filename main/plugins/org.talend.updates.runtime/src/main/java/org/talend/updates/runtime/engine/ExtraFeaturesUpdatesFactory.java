@@ -16,6 +16,7 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.talend.commons.exception.ExceptionHandler;
 import org.talend.updates.runtime.engine.factory.AbstractExtraUpdatesFactory;
 import org.talend.updates.runtime.model.ExtraFeature;
 
@@ -42,10 +43,14 @@ public class ExtraFeaturesUpdatesFactory {
             Assert.isNotNull(uninstalledExtraFeatures);
         }
         AbstractExtraUpdatesFactory[] updatesFactories = updatesFactoryReader.getUpdatesFactories();
-        if (updatesFactories != null) {
-            for (AbstractExtraUpdatesFactory factory : updatesFactories) {
-                factory.retrieveUninstalledExtraFeatures(monitor, uninstalledExtraFeatures);
+        try {
+            if (updatesFactories != null) {
+                for (AbstractExtraUpdatesFactory factory : updatesFactories) {
+                    factory.retrieveUninstalledExtraFeatures(monitor, uninstalledExtraFeatures);
+                }
             }
+        } catch (Exception e) {
+            ExceptionHandler.process(e);
         }
     }
 
