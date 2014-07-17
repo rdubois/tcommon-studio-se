@@ -10,7 +10,7 @@
 // 9 rue Pages 92150 Suresnes, France
 //
 // ============================================================================
-package org.talend.updates.runtime.engine;
+package org.talend.updates.runtime.engine.factory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -33,69 +33,20 @@ import org.talend.updates.runtime.model.TalendWebServiceUpdateExtraFeature;
  * created by ggu on Jul 17, 2014 Detailled comment
  *
  */
-public class ExtraJarsFactory extends AbstractExtraUpdatesFactory {
+public class PluginOptionalMissingJarsExtraUpdatesFactory extends AbstractExtraUpdatesFactory {
 
-    private static Logger log = Logger.getLogger(ExtraJarsFactory.class);
+    private static Logger log = Logger.getLogger(PluginOptionalMissingJarsExtraUpdatesFactory.class);
 
-    /**
-     * gets all missing third parties library then check is remote web service can provide then then creates an extra
-     * feature for those libs.
+    /*
+     * (non-Javadoc)
      * 
-     * @param uninstalledExtraFeatures
-     * 
-     * @param subMonitor
-     * 
-     * @return the extra feauture to download the missing jars or an emty list if monitor was canceled
+     * @see
+     * org.talend.updates.runtime.engine.AbstractExtraUpdatesFactory#retrieveUninstalledExtraFeatures(org.eclipse.core
+     * .runtime.IProgressMonitor, java.util.Set)
      */
-    public void getPluginRequiredMissingJars(IProgressMonitor monitor, Set<ExtraFeature> uninstalledExtraFeatures) {
-        SubMonitor mainSubMonitor = SubMonitor.convert(monitor, 2);
+    @Override
+    public void retrieveUninstalledExtraFeatures(IProgressMonitor monitor, Set<ExtraFeature> uninstalledExtraFeatures) {
 
-        // get all misssing jars
-        List<ModuleNeeded> allUninstalledModules = ModulesNeededProvider
-                .getAllNoInstalledModulesNeededExtensionsForPlugin(mainSubMonitor.newChild(1));
-        if (monitor.isCanceled()) {
-            return;
-        }// else keep going
-         // fetch missing jar information from remote web site.
-        ArrayList<ModuleToInstall> modulesRequiredToBeInstalled = new ArrayList<ModuleToInstall>();
-        IRunnableWithProgress notInstalledModulesRunnable = RemoteModulesHelper.getInstance().getNotInstalledModulesRunnable(
-                allUninstalledModules, modulesRequiredToBeInstalled);// IRunnableWithProgress should not be part of
-        // jface because it adds graphical
-        // dependencies.
-        if (notInstalledModulesRunnable != null) {// some data need to be fetched
-            try {
-                notInstalledModulesRunnable.run(mainSubMonitor.newChild(1));
-            } catch (InvocationTargetException e) {
-                log.error("failed to fetch missing third parties jars information", e); //$NON-NLS-1$
-                return;
-            } catch (InterruptedException e) {
-                log.error("failed to fetch missing third parties jars information", e); //$NON-NLS-1$
-                return;
-            }
-        }// else all data already fetched so keep going
-        if (mainSubMonitor.isCanceled()) {
-            return;
-        }// else keep going.
-        ArrayList<ModuleToInstall> modulesForAutomaticInstall = TalendWebServiceUpdateExtraFeature
-                .filterAllAutomaticInstallableModules(modulesRequiredToBeInstalled);
-        if (modulesForAutomaticInstall.isEmpty()) {
-            return;
-        } else {
-            addToSet(
-                    uninstalledExtraFeatures,
-                    new TalendWebServiceUpdateExtraFeature(modulesForAutomaticInstall, Messages
-                            .getString("missing.third.parties.libs.feature.name"), Messages //$NON-NLS-1$
-                            .getString("missing.third.parties.libs.feature.description"), true/* mustInstall */)); //$NON-NLS-1$
-        }
-    }
-
-    /**
-     * create a newfeature item to dowload optionnal jars
-     * 
-     * @param newChild
-     * @param uninstalledExtraFeatures
-     */
-    public void getPluginOptionaMissingJars(IProgressMonitor monitor, Set<ExtraFeature> uninstalledExtraFeatures) {
         SubMonitor mainSubMonitor = SubMonitor.convert(monitor, 2);
         List<ModuleNeeded> unistalledModulesNeeded = ModulesNeededProvider
                 .filterOutRequiredModulesForBundle(ModulesNeededProvider.getUnistalledModulesNeeded());
@@ -140,4 +91,5 @@ public class ExtraJarsFactory extends AbstractExtraUpdatesFactory {
         }// else nothing to install so nothing to install ;)
 
     }
+
 }

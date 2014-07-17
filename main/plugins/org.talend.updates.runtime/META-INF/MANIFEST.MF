@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Updates Runtime
-Bundle-SymbolicName: org.talend.updates.runtime
+Bundle-SymbolicName: org.talend.updates.runtime;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.talend.updates.runtime.UpdatesRuntimePlugin
 Bundle-Vendor: .Talend SA.
@@ -9,16 +9,21 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.apache.log4j,
  org.eclipse.equinox.p2.core,
- org.eclipse.equinox.p2.engine,
  org.eclipse.equinox.p2.metadata,
+ org.eclipse.equinox.p2.engine,
+ org.eclipse.equinox.p2.operations,
+ org.eclipse.equinox.p2.metadata.repository,
  org.eclipse.equinox.p2.repository,
+ org.eclipse.jface,
+ org.eclipse.jface.databinding,
  org.eclipse.core.databinding,
  org.eclipse.core.databinding.beans,
  org.eclipse.core.databinding.observable,
  org.eclipse.core.databinding.property,
- org.talend.core.runtime,
  org.talend.librariesmanager,
  org.talend.librariesmanager.ui
 Bundle-ActivationPolicy: lazy
 Export-Package: org.talend.updates.runtime.engine,
- org.talend.updates.runtime.model
+ org.talend.updates.runtime.engine.factory,
+ org.talend.updates.runtime.model,
+ org.talend.updates.runtime.ui

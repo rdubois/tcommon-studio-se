@@ -10,18 +10,21 @@
 // 9 rue Pages 92150 Suresnes, France
 //
 // ============================================================================
-package org.talend.updates.runtime.engine;
+package org.talend.updates.runtime.engine.factory;
 
 import java.util.Set;
 
 import org.eclipse.core.databinding.observable.IObservable;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.talend.updates.runtime.model.ExtraFeature;
 
 /**
  * created by ggu on Jul 17, 2014 Detailled comment
  *
  */
-public class AbstractExtraUpdatesFactory {
+public abstract class AbstractExtraUpdatesFactory {
+
+    public abstract void retrieveUninstalledExtraFeatures(IProgressMonitor monitor, Set<ExtraFeature> uninstalledExtraFeatures);
 
     /**
      * This method is used to add an item to the set and use a specific realm if the Set is an IObservable, any

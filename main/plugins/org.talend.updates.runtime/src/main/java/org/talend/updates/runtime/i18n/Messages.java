@@ -27,7 +27,7 @@ import org.talend.updates.runtime.UpdatesRuntimePlugin;
  */
 public class Messages extends MessagesCore {
 
-    private static final String BUNDLE_NAME = "org/talend/updates/runtime/i18n/messages"; //$NON-NLS-1$
+    private static final String BUNDLE_NAME = "messages"; //$NON-NLS-1$
 
     private static ResourceBundle resourceBundle = ResourceBundle.getBundle(BUNDLE_NAME);
 
