@@ -26,6 +26,11 @@ public abstract class AbstractExtraUpdatesFactory {
 
     public abstract void retrieveUninstalledExtraFeatures(IProgressMonitor monitor, Set<ExtraFeature> uninstalledExtraFeatures);
 
+    // after update studio, will do this.
+    public void afterUpdate() {
+        // nothing to do
+    }
+
     /**
      * This method is used to add an item to the set and use a specific realm if the Set is an IObservable, any
      * observant be notified of the set modification.

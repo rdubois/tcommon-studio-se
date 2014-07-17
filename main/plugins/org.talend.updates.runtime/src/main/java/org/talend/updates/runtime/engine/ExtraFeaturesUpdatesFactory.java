@@ -25,7 +25,7 @@ import org.talend.updates.runtime.model.ExtraFeature;
  */
 public class ExtraFeaturesUpdatesFactory {
 
-    private ExtraFeaturesUpdatesReader reader = new ExtraFeaturesUpdatesReader();
+    private final static ExtraFeaturesUpdatesReader updatesFactoryReader = new ExtraFeaturesUpdatesReader();
 
     /**
      * 
@@ -41,10 +41,19 @@ public class ExtraFeaturesUpdatesFactory {
         if (uninstalledExtraFeatures == null) {
             Assert.isNotNull(uninstalledExtraFeatures);
         }
-        AbstractExtraUpdatesFactory[] updatesFactories = reader.getUpdatesFactories();
+        AbstractExtraUpdatesFactory[] updatesFactories = updatesFactoryReader.getUpdatesFactories();
         if (updatesFactories != null) {
             for (AbstractExtraUpdatesFactory factory : updatesFactories) {
                 factory.retrieveUninstalledExtraFeatures(monitor, uninstalledExtraFeatures);
+            }
+        }
+    }
+
+    public void afterUpdate() {
+        AbstractExtraUpdatesFactory[] updatesFactories = updatesFactoryReader.getUpdatesFactories();
+        if (updatesFactories != null) {
+            for (AbstractExtraUpdatesFactory factory : updatesFactories) {
+                factory.afterUpdate();
             }
         }
     }

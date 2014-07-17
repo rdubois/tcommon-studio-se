@@ -39,8 +39,6 @@ import org.talend.updates.runtime.engine.InstallNewFeatureJob;
 import org.talend.updates.runtime.i18n.Messages;
 import org.talend.updates.runtime.model.ExtraFeature;
 
-import com.sun.org.apache.xml.internal.serializer.utils.Utils;
-
 /**
  * created by sgandon on 25 févr. 2013 Detailled comment
  * 
@@ -113,7 +111,8 @@ public class UpdateStudioWizard extends Wizard {
                 // display message in case of any success
                 String firstPartOfMessage = Messages.getString("UpdateStudioWizard.all.feautures.installed.successfully"); //$NON-NLS-1$
                 if (hasAnySuccess) {
-                    Utils.removeLicenseDateFile();// force the reload of plugins after any sucessfull install.
+                    ExtraFeaturesUpdatesFactory updatesFactory = new ExtraFeaturesUpdatesFactory();
+                    updatesFactory.afterUpdate();
                     if (hasAnyFailure) {
                         firstPartOfMessage = Messages.getString("UpdateStudioWizard.some.feautures.installed.sucessfully"); //$NON-NLS-1$
                     }// else only success to keep initial message
