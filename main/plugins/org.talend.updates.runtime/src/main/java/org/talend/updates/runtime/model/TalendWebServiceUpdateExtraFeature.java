@@ -81,7 +81,7 @@ public class TalendWebServiceUpdateExtraFeature implements ExtraFeature {
      * @see org.talend.updates.model.ExtraFeature#install(org.eclipse.core.runtime.IProgressMonitor, java.util.List)
      */
     @Override
-    public IStatus install(IProgressMonitor progress, List<URI> allRepoUris) throws ExtraFeatureException {
+    public IStatus install(IProgressMonitor progress, List<URI> allRepoUris) throws Exception {
         // shell should not be used here cause this is a low level class but we need to ask the user to validate the
         // license
         // and I do not have the time to use a delegate pattern.

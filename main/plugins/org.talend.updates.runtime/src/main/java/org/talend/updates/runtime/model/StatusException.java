@@ -12,23 +12,25 @@
 // ============================================================================
 package org.talend.updates.runtime.model;
 
-import org.eclipse.equinox.p2.core.ProvisionException;
+import org.eclipse.core.runtime.IStatus;
 
 /**
- * created by ggu on Jul 17, 2014 Detailled comment
+ * created by ggu on Jul 23, 2014 Detailled comment
  *
  */
-public class ExtraFeatureException extends Exception {
+public class StatusException extends Exception {
 
-    private static final long serialVersionUID = -1761956032920259160L;
+    private static final long serialVersionUID = -71237725085948744L;
 
-    /**
-     * DOC sgandon ExtraFeatureException constructor comment.
-     * 
-     * @param e
-     */
-    public ExtraFeatureException(ProvisionException e) {
-        super(e);
+    private IStatus status;
+
+    public StatusException(IStatus status) {
+        super(status.getMessage(), status.getException());
+        this.status = status;
+    }
+
+    public IStatus getStatus() {
+        return this.status;
     }
 
 }

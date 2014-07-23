@@ -17,6 +17,7 @@ import java.util.Set;
 import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.talend.updates.runtime.model.ExtraFeature;
+import org.talend.updates.runtime.model.StatusException;
 
 /**
  * created by ggu on Jul 17, 2014 Detailled comment
@@ -26,11 +27,6 @@ public abstract class AbstractExtraUpdatesFactory {
 
     public abstract void retrieveUninstalledExtraFeatures(IProgressMonitor monitor, Set<ExtraFeature> uninstalledExtraFeatures)
             throws Exception;
-
-    // after update studio, will do this.
-    public void afterUpdate() {
-        // nothing to do
-    }
 
     /**
      * This method is used to add an item to the set and use a specific realm if the Set is an IObservable, any
@@ -52,5 +48,28 @@ public abstract class AbstractExtraUpdatesFactory {
         } else {
             setExtraFeatureRunnable.run();
         }
+    }
+
+    /**
+     * 
+     * before install, will call this.
+     */
+    public void beforeInstall() throws StatusException {
+        // nothing to do
+    }
+
+    /**
+     * 
+     * after install, will call this.
+     */
+    public void afterInstall() throws StatusException {
+        // nothing to do
+    }
+
+    /**
+     * after update studio, will do this.
+     */
+    public void afterUpdate() throws Exception {
+        // nothing to do
     }
 }

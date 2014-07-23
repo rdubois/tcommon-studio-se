@@ -32,7 +32,7 @@ public interface ExtraFeature {
      * 
      * @return the isInstalled returns true is the feature is already installed
      */
-    public boolean isInstalled(IProgressMonitor progress) throws ExtraFeatureException;
+    public boolean isInstalled(IProgressMonitor progress) throws Exception;
 
     /**
      * Getter for name.
@@ -63,7 +63,7 @@ public interface ExtraFeature {
      * empty, thus indicating the ExtraFeature must fetch the data from the default repository
      * @return the Status for the install
      */
-    public IStatus install(IProgressMonitor progress, List<URI> allRepoUris) throws ExtraFeatureException;
+    public IStatus install(IProgressMonitor progress, List<URI> allRepoUris) throws Exception;
 
     /**
      * @return the type of site comptible with this features

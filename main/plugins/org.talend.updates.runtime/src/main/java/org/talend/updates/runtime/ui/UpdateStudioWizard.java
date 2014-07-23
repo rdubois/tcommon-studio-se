@@ -113,7 +113,11 @@ public class UpdateStudioWizard extends Wizard {
                 String firstPartOfMessage = Messages.getString("UpdateStudioWizard.all.feautures.installed.successfully"); //$NON-NLS-1$
                 if (hasAnySuccess) {
                     ExtraFeaturesUpdatesFactory updatesFactory = new ExtraFeaturesUpdatesFactory();
-                    updatesFactory.afterUpdate();
+                    try {
+                        updatesFactory.afterUpdate();
+                    } catch (Exception e) {
+                        hasAnyFailure = true;
+                    }
                     if (hasAnyFailure) {
                         firstPartOfMessage = Messages.getString("UpdateStudioWizard.some.feautures.installed.sucessfully"); //$NON-NLS-1$
                     }// else only success to keep initial message
