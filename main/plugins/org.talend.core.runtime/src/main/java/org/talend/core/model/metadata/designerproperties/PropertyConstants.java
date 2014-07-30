@@ -28,6 +28,7 @@ public final class PropertyConstants {
     public enum CDCTypeMode {
         LOG_MODE("LOG"), //$NON-NLS-1$
         TRIGGER_MODE("TRIGGER"), //$NON-NLS-1$
+        XSTREAM_MODE("XSTREAM"), //$NON-NLS-1$
         ;
 
         private String value;
