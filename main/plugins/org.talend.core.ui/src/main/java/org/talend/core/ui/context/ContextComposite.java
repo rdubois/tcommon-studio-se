@@ -22,7 +22,6 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.EditorPart;
@@ -32,7 +31,6 @@ import org.talend.core.model.process.IContext;
 import org.talend.core.model.process.IContextManager;
 import org.talend.core.model.process.IContextParameter;
 import org.talend.core.model.process.IProcess2;
-import org.talend.core.runtime.i18n.Messages;
 import org.talend.designer.core.ui.editor.cmd.ContextAddParameterCommand;
 import org.talend.designer.core.ui.editor.cmd.ContextChangeDefaultCommand;
 import org.talend.designer.core.ui.editor.cmd.ContextRemoveParameterCommand;
@@ -52,6 +50,8 @@ public abstract class ContextComposite extends Composite implements IContextMode
     private ContextTreeValuesComposite treeValues;
 
     private ContextTableValuesComposite tableValues;
+
+    private ContextNebulaGridComposite tableNebulas;
 
     private CTabFolder tab;
 
@@ -110,27 +110,31 @@ public abstract class ContextComposite extends Composite implements IContextMode
             }
         }
         if (flag) {
-            tableValues.setEnabled(false);
+            tableNebulas.setEnabled(false);
         } else {
-            tableValues.setEnabled(enable);
+            tableNebulas.setEnabled(enable);
         }
     }
 
     @Override
     public void refresh() {
-        refreshTableTab();
+        refreshTab();
     }
 
     @Override
     public void refreshTemplateTab() {
+        refreshTab();
+    }
+
+    private void refreshTab() {
         if (getContextManager() == null) {
             this.setEnabled(false);
-            tableValues.clear();
-            tableValues.setEnabled(isReadOnly());
+            tableNebulas.clear();
+            tableNebulas.setEnabled(isReadOnly());
         } else {
             this.setEnabled(true);
             setTabEnable(!isReadOnly());
-            toolgeRefreshContextRelitiveComposite(tableValues);
+            toolgeRefreshContextRelitiveComposite(tableNebulas);
         }
 
         if (getContextManager() != null) {
@@ -140,37 +144,12 @@ public abstract class ContextComposite extends Composite implements IContextMode
 
     @Override
     public void refreshTableTab() {
-        if (getContextManager() != null && tableValues != null) {
-            tableValues.refresh();
-        }
-        if (getContextManager() == null) {
-            this.setEnabled(false);
-            tableValues.clear();
-        } else {
-            this.setEnabled(true);
-            setTabEnable(!isReadOnly());
-            toolgeRefreshContextRelitiveComposite(tableValues);
-        }
-
-        if (getContextManager() != null) {
-            getContextManager().fireContextsChangedEvent();
-        }
+        refreshTab();
     }
 
     @Override
     public void refreshTreeTab() {
-        if (getContextManager() == null) {
-            this.setEnabled(false);
-            tableValues.clear();
-        } else {
-            this.setEnabled(true);
-            setTabEnable(!isReadOnly());
-            toolgeRefreshContextRelitiveComposite(tableValues);
-        }
-
-        if (getContextManager() != null) {
-            getContextManager().fireContextsChangedEvent();
-        }
+        refreshTab();
     }
 
     /**
@@ -201,19 +180,11 @@ public abstract class ContextComposite extends Composite implements IContextMode
      */
     protected void initializeUI() {
 
-        Group tableValuesGroup = new Group(this, SWT.BORDER);
+        tableNebulas = new ContextNebulaGridComposite(this, this);
 
-        tableValuesGroup.setLayout(new GridLayout());
-
-        tableValuesGroup.setLayoutData(new GridData(GridData.FILL_BOTH));
-
-        tableValuesGroup.setText(Messages.getString("ContextComposite.tableValue"));
-
-        tableValues = new ContextTableValuesComposite(tableValuesGroup, this);
-
-        tableValues.setLayout(new GridLayout());
+        tableNebulas.setLayout(new GridLayout());
         GridData gridData = new GridData(GridData.FILL_BOTH);
-        tableValues.setLayoutData(gridData);
+        tableNebulas.setLayoutData(gridData);
     }
 
     public CTabFolder getTableFolder() {
@@ -283,8 +254,8 @@ public abstract class ContextComposite extends Composite implements IContextMode
         return this.template;
     }
 
-    public ContextTableValuesComposite getContextTableValueComposite() {
-        return this.tableValues;
+    public ContextNebulaGridComposite getContextTableComposite() {
+        return this.tableNebulas;
     }
 
     @Override
