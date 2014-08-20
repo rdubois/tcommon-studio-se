@@ -34,83 +34,83 @@ import org.talend.core.model.utils.ParameterValueUtil;
  */
 public abstract class AbstractNode implements INode {
 
-    private String                           componentName;
+    private String componentName;
 
-    List<? extends IElementParameter>        elementParameters;
+    List<? extends IElementParameter> elementParameters;
 
-    private List<? extends IConnection>      outgoingConnections   = new ArrayList<IConnection>();
+    private List<? extends IConnection> outgoingConnections = new ArrayList<IConnection>();
 
-    private List<? extends IConnection>      incomingConnections   = new ArrayList<IConnection>();
+    private List<? extends IConnection> incomingConnections = new ArrayList<IConnection>();
 
-    private List<IMetadataTable>             metadataList;
+    private List<IMetadataTable> metadataList;
 
-    private String                           uniqueName;
+    private String uniqueName;
 
-    private boolean                          activate;
+    private boolean activate;
 
-    private boolean                          start;
+    private boolean start;
 
-    private boolean                          subProcessStart;
+    private boolean subProcessStart;
 
-    private IProcess                         process;
+    private IProcess process;
 
-    private IComponent                       component;
+    private IComponent component;
 
-    private boolean                          readOnly;
+    private boolean readOnly;
 
-    private IExternalNode                    externalNode;
+    private IExternalNode externalNode;
 
-    private boolean                          hasConditionalOutputs = Boolean.FALSE;
+    private boolean hasConditionalOutputs = Boolean.FALSE;
 
-    private boolean                          isMultiplyingOutputs  = Boolean.FALSE;
+    private boolean isMultiplyingOutputs = Boolean.FALSE;
 
-    private List<BlockCode>                  blocksCodeToClose;
+    private List<BlockCode> blocksCodeToClose;
 
-    private boolean                          isThereLinkWithHash;
+    private boolean isThereLinkWithHash;
 
-    private boolean                          isThereLinkWithMerge;
+    private boolean isThereLinkWithMerge;
 
-    private Map<INode, Integer>              mergeInfo;
+    private Map<INode, Integer> mergeInfo;
 
-    private String                           label;
+    private String label;
 
     protected List<? extends INodeConnector> listConnector;
 
-    private INode                            designSubjobStartNode;
+    private INode designSubjobStartNode;
 
-    private boolean                          isVirtualGenerateNode;
+    private boolean isVirtualGenerateNode;
 
-    private EConnectionType                  virtualLinkTo;
+    private EConnectionType virtualLinkTo;
 
-    private String                           uniqueShortName;
+    private String uniqueShortName;
 
-    private boolean                          subProcessContainBreakpoint;
+    private boolean subProcessContainBreakpoint;
 
-    private boolean                          isThereLinkWithRef    = Boolean.FALSE;
+    private boolean isThereLinkWithRef = Boolean.FALSE;
 
-    private List<INode>                      refNodes;
+    private List<INode> refNodes;
 
-    private List<ModuleNeeded>               modulesNeeded         = new ArrayList<ModuleNeeded>();
+    private List<ModuleNeeded> modulesNeeded = new ArrayList<ModuleNeeded>();
 
     // as the talend job contains multiple mapreduce jobs, use this to indicate
     // which mapreduce job contains this
     // graphic node
-    private Integer                          mrGroupId;
+    private Integer mrGroupId;
 
     // for the component which will generate multiple mapreduce jobs, count the
     // size of mapreduce jobs.
-    private Integer                          mrJobInGroupCount;
+    private Integer mrJobInGroupCount;
 
     // for the component which will generate multiple mapreduce jobs
-    private Integer                          mrJobIDInGroup;
+    private Integer mrJobIDInGroup;
 
     // indicate if this MR component will generate Reduce part
-    private boolean                          mrContainsReduce;
+    private boolean mrContainsReduce;
 
-    private boolean                          mapOnlyAfterReduce;
+    private boolean mapOnlyAfterReduce;
 
     // for MR, tag this component is the ref(lookup) start node
-    private boolean                          isRefNode             = false;
+    private boolean isRefNode = false;
 
     public String getComponentName() {
         return componentName;
@@ -746,7 +746,7 @@ public abstract class AbstractNode implements INode {
     public boolean isGeneratedAsVirtualComponent() {
         IElementParameter param = getElementParameter("IS_VIRTUAL_COMPONENT"); //$NON-NLS-1$
         if (param != null) { // now only available for tUniqRow.
-            return (Boolean) param.getValue();
+            return ((Boolean) param.getValue() && param.isRequired(elementParameters));
         }
         List<IMultipleComponentManager> multipleComponentManagers = getComponent().getMultipleComponentManagers();
         for (IMultipleComponentManager mcm : multipleComponentManagers) {
